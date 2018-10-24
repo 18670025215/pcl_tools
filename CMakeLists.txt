@@ -7,7 +7,7 @@ add_compile_options(-std=c++11)
 add_definitions(-w)
 #set(CMAKE_BUILD_TYPE debug  GCACHE STRING "set build type to debug")
 # PCL
-find_package(PCL 1.8 REQUIRED)
+find_package(PCL  REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
@@ -67,12 +67,19 @@ target_link_libraries(qua_euler_demo  ${PCL_LIBRARIES})
 add_executable(rs_pca_estimation  tools/pca_estimation.cpp )
 target_link_libraries(rs_pca_estimation  ${PCL_LIBRARIES})
 
+
+add_executable(rs_seg_region_grow  tools/seg_region_growing.cpp )
+target_link_libraries(rs_seg_region_grow  ${PCL_LIBRARIES})
+
+add_executable(rs_euler2quat  tools/euler2quat.cpp )
+target_link_libraries(rs_euler2quat  ${PCL_LIBRARIES})
+
 #---------------gtest-----------------
 set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} /usr /usr/local)
 enable_testing()
-find_path(GTEST_INCLUDE_DIR gtest/gtest.h)
-add_executable(rs_test test/test.cpp ${GTEST_INCLUDE_DIR} )
-target_link_libraries(rs_test rs_proprogress /usr/local/lib/libgtest.a -pthread )
+#find_path(GTEST_INCLUDE_DIR gtest/gtest.h)
+#add_executable(rs_test test/test.cpp ${GTEST_INCLUDE_DIR} )
+#target_link_libraries(rs_test rs_proprogress /usr/local/lib/libgtest.a -pthread )
 #------------install shell-------------
 
 install (TARGETS
@@ -81,6 +88,7 @@ install (TARGETS
 				 rs_pcd_merge
 				 rs_normal_estimation
 				 rs_pca_estimation
+         rs_euler2quat 
 	RUNTIME DESTINATION bin )
 
 #install(FILES ${HEAD_FILES} DESTINATION include/pcl_tools)
